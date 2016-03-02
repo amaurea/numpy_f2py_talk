@@ -107,7 +107,7 @@ def itimeit(command="pass", setup="pass", baseline=None, locs="caller",
 			code = compile(template_with_base % params, "<itimeit>", "exec")
 		else:
 			code = compile(template % params, "<itimeit>", "exec")
-		exec(code, globs, locs)
+		exec code in globs, locs
 		return locs["itimeit_core"]
 	# Turn off garbage collection during timing
 	gc_was_enabled = gc.isenabled()
