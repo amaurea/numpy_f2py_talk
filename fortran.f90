@@ -36,4 +36,19 @@ subroutine max_by_bin(a, bins, res)
 	end do
 end subroutine
 
+function mindist(vecs) result(res)
+	implicit none
+	real(8), intent(in) :: vecs(:,:)
+	real(8) :: res
+	integer(4) :: i, j, n
+	n = size(vecs,2)
+	res = sum((vecs(:,2)-vecs(:,1))**2)
+	!$omp parallel do private(i,j) reduction(min:res) schedule(dynamic)
+	do i = 1, n-1
+		do j = i+1,n
+			res = min(res, sum((vecs(:,i)-vecs(:,j))**2))
+		end do
+	end do
+end function
+
 end module
